@@ -15,3 +15,7 @@ per-host via tampermonkey menu command.
 `tblsort.user.js` makes HTML tables sortable by clicking column
 headers. It handles text, numbers, and dates, and can restore the
 original row order when sorting is cleared.
+
+## Testing
+
+There’s no real tests, but `make lint` will run various lint checks.
