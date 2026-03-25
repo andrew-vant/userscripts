@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Desticky
 // @namespace    https://gitlab.com/ajvant/userscripts
-// @version      1.4.1
+// @version      1.4.2
 // @description  Make sticky elements non-sticky, but only on sites you enable
 // @match        *://*/*
 // @run-at       document-idle
@@ -122,8 +122,8 @@
 
         GM_registerMenuCommand(
             enabled
-                ? `[on] Desticky ${host}`
-                : `[off] Desticky ${host}`,
+                ? `◉ Desticky ${host}`
+                : `○ Desticky ${host}`,
             () => {
                 setEnabledForCurrentHost(!enabled);
                 reloadPage();

@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         tblsort
 // @namespace    https://gitlab.com/ajvant/userscripts
-// @version      0.2.1
+// @version      0.2.2
 // @description  Make HTML tables sortable by clicking column headers.
 // @match        *://*/*
 // @grant        GM_getValue
@@ -49,8 +49,8 @@
 
         GM_registerMenuCommand(
             enabled
-                ? `[on] Sort tables on ${host}`
-                : `[off] Sort tables on ${host}`,
+                ? `◉ Sort tables on ${host}`
+                : `○ Sort tables on ${host}`,
             () => {
                 setEnabledForCurrentHost(!enabled);
                 reloadPage();
