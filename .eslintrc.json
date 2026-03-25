@@ -1,0 +1,15 @@
+{
+  "env": {
+    "browser": true,
+    "es6": true
+  },
+  "globals": {
+    "GM_getValue": "readonly",
+    "GM_registerMenuCommand": "readonly",
+    "GM_setValue": "readonly"
+  },
+  "parserOptions": {
+    "ecmaVersion": 2020,
+    "sourceType": "script"
+  }
+}
