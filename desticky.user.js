@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Desticky
-// @namespace    https://github.com/andrew-vant/userscripts
+// @namespace    https://gitlab.com/ajvant/userscripts
 // @version      1.3
 // @description  Make sticky elements non-sticky, but only on sites you enable
 // @match        *://*/*

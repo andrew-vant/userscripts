@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         tblsort
-// @namespace    https://github.com/andrew-vant/userscripts
+// @namespace    https://gitlab.com/ajvant/userscripts
 // @version      0.1
 // @description  Make HTML tables sortable by clicking column headers.
 // @match        *://*/*
