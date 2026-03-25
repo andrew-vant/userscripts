@@ -14,7 +14,8 @@ per-host via tampermonkey menu command.
 
 `tblsort.user.js` makes HTML tables sortable by clicking column
 headers. It handles text, numbers, and dates, and can restore the
-original row order when sorting is cleared.
+original row order when sorting is cleared. It is enabled per-host via
+Tampermonkey menu command.
 
 ## Testing
 
