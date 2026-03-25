@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         tblsort
 // @namespace    https://gitlab.com/ajvant/userscripts
-// @version      0.1
+// @version      0.2
 // @description  Make HTML tables sortable by clicking column headers.
 // @match        *://*/*
 // @grant        GM_getValue
@@ -56,16 +56,6 @@
                 reloadPage();
             }
         );
-
-        GM_registerMenuCommand('Enable tblsort on all sites', () => {
-            GM_setValue('enabled:*', true);
-            reloadPage();
-        });
-
-        GM_registerMenuCommand('Disable tblsort on all sites', () => {
-            GM_setValue('enabled:*', false);
-            reloadPage();
-        });
     }
 
     /**
@@ -74,9 +64,7 @@
      * @returns {boolean}
      */
     function shouldRun() {
-        const globalEnabled = Boolean(GM_getValue('enabled:*', false));
-        const hostEnabled = isEnabledForCurrentHost();
-        return globalEnabled || hostEnabled;
+        return isEnabledForCurrentHost();
     }
 
     /**

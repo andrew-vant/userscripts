@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Desticky
 // @namespace    https://gitlab.com/ajvant/userscripts
-// @version      1.3
+// @version      1.4
 // @description  Make sticky elements non-sticky, but only on sites you enable
 // @match        *://*/*
 // @run-at       document-idle
@@ -129,16 +129,6 @@
                 reloadPage();
             }
         );
-
-        GM_registerMenuCommand('Enable unstick on all sites', () => {
-            GM_setValue('enabled:*', true);
-            reloadPage();
-        });
-
-        GM_registerMenuCommand('Disable unstick on all sites', () => {
-            GM_setValue('enabled:*', false);
-            reloadPage();
-        });
     }
 
     /**
@@ -147,9 +137,7 @@
      * @returns {boolean}
      */
     function shouldRun() {
-        const globalEnabled = Boolean(GM_getValue('enabled:*', false));
-        const hostEnabled = isEnabledForCurrentHost();
-        return globalEnabled || hostEnabled;
+        return isEnabledForCurrentHost();
     }
 
     registerMenuCommands();
