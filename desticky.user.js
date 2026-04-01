@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Desticky
 // @namespace    https://gitlab.com/ajvant/userscripts
-// @version      1.5.0
+// @version      1.6.0
 // @description  Make sticky/fixed elements non-sticky, but only on sites you enable
 // @match        *://*/*
 // @run-at       document-idle
@@ -16,24 +16,15 @@
     const MARKER_ATTRIBUTE = 'data-tm-unstick';
     const STYLE_ID = 'tm-unstick-style';
     const host = location.hostname;
-    const enabledKey = `enabled:${host}`;
+    const stickyKey = `desticky:${host}`;
+    const fixedKey = `defixed:${host}`;
 
-    /**
-     * Return whether unstick mode is enabled for the current host.
-     *
-     * @returns {boolean}
-     */
-    function isEnabledForCurrentHost() {
-        return Boolean(GM_getValue(enabledKey, false));
+    function isStickyEnabled() {
+        return Boolean(GM_getValue(stickyKey, false));
     }
 
-    /**
-     * Set whether unstick mode is enabled for the current host.
-     *
-     * @param {boolean} enabled
-     */
-    function setEnabledForCurrentHost(enabled) {
-        GM_setValue(enabledKey, enabled);
+    function isFixedEnabled() {
+        return Boolean(GM_getValue(fixedKey, false));
     }
 
     /**
@@ -68,18 +59,23 @@
     }
 
     /**
-     * Mark one element as non-sticky if it is currently sticky.
+     * Mark one element if its position is among the targeted types.
      *
      * @param {Element} element
      * @returns {boolean} True if newly marked.
      */
     function markIfSticky(element) {
         if (!(element instanceof Element)
-            || element.getAttribute(MARKER_ATTRIBUTE) === '1'
-            || !['sticky', 'fixed'].includes(
-                window.getComputedStyle(element).position)) {
+            || element.getAttribute(MARKER_ATTRIBUTE) === '1') {
             return false;
         }
+
+        const pos = window.getComputedStyle(element).position;
+
+        if (!targetPositions.includes(pos)) {
+            return false;
+        }
+
         element.setAttribute(MARKER_ATTRIBUTE, '1');
         return true;
     }
@@ -110,31 +106,34 @@
      * Register Tampermonkey menu commands.
      */
     function registerMenuCommands() {
-        const enabled = isEnabledForCurrentHost();
+        const sticky = isStickyEnabled();
+        const fixed = isFixedEnabled();
 
         GM_registerMenuCommand(
-            enabled
-                ? `◉ Desticky ${host}`
-                : `○ Desticky ${host}`,
+            `${sticky ? '◉' : '○'} Desticky ${host}`,
             () => {
-                setEnabledForCurrentHost(!enabled);
+                GM_setValue(stickyKey, !sticky);
+                reloadPage();
+            }
+        );
+
+        GM_registerMenuCommand(
+            `${fixed ? '◉' : '○'} Defixed ${host}`,
+            () => {
+                GM_setValue(fixedKey, !fixed);
                 reloadPage();
             }
         );
     }
 
-    /**
-     * Return whether script should run on this host.
-     *
-     * @returns {boolean}
-     */
-    function shouldRun() {
-        return isEnabledForCurrentHost();
-    }
+    const targetPositions = [
+        ...(isStickyEnabled() ? ['sticky'] : []),
+        ...(isFixedEnabled() ? ['fixed'] : []),
+    ];
 
     registerMenuCommands();
 
-    if (!shouldRun()) {
+    if (targetPositions.length === 0) {
         console.log(`Unstick disabled for ${host}.`);
         return;
     }
