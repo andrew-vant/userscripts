@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name         Desticky
 // @namespace    https://gitlab.com/ajvant/userscripts
-// @version      1.4.2
-// @description  Make sticky elements non-sticky, but only on sites you enable
+// @version      1.5.0
+// @description  Make sticky/fixed elements non-sticky, but only on sites you enable
 // @match        *://*/*
 // @run-at       document-idle
 // @grant        GM_getValue
@@ -74,20 +74,12 @@
      * @returns {boolean} True if newly marked.
      */
     function markIfSticky(element) {
-        if (!(element instanceof Element)) {
+        if (!(element instanceof Element)
+            || element.getAttribute(MARKER_ATTRIBUTE) === '1'
+            || !['sticky', 'fixed'].includes(
+                window.getComputedStyle(element).position)) {
             return false;
         }
-
-        if (element.getAttribute(MARKER_ATTRIBUTE) === '1') {
-            return false;
-        }
-
-        const style = window.getComputedStyle(element);
-
-        if (style.position !== 'sticky') {
-            return false;
-        }
-
         element.setAttribute(MARKER_ATTRIBUTE, '1');
         return true;
     }
